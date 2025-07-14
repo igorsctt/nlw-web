@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { UploadTextTranscriptionForm } from '@/components/upload-text-transcription-form';
 
 const isRecordingSupported =
   !!navigator.mediaDevices &&
@@ -99,17 +100,37 @@ export function RecordRoomAudio() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-3">
-      {isRecording ? (
-        <Button onClick={stopRecording} variant="destructive">
-          Parar gravação
-        </Button>
-      ) : (
-        <Button onClick={startRecording} variant="default">
-          Iniciar gravação
-        </Button>
-      )}
-      {isRecording ? <p>Gravando...</p> : <p>Pausado</p>}
+    <div className="flex h-screen flex-col items-center justify-center gap-8 bg-zinc-950 px-4">
+      <div className="flex flex-col items-center gap-4 bg-zinc-900 rounded-xl p-8 shadow-lg w-full max-w-lg">
+        <h1 className="text-2xl font-bold text-foreground mb-2">Captura de Áudio ou Texto</h1>
+        <p className="text-muted-foreground text-center mb-4">
+          Você pode gravar um áudio para transcrição automática ou digitar/colar um texto manualmente.<br />
+          <span className="font-semibold">Escolha a opção que preferir:</span>
+        </p>
+        <div className="flex flex-col items-center gap-3 w-full">
+          {isRecording ? (
+            <Button onClick={stopRecording} variant="destructive" className="w-full">
+              Parar gravação
+            </Button>
+          ) : (
+            <Button onClick={startRecording} variant="default" className="w-full">
+              Iniciar gravação
+            </Button>
+          )}
+          {isRecording ? <p className="text-primary">Gravando...</p> : <p className="text-muted-foreground">Pausado</p>}
+        </div>
+        <div className="w-full mt-6">
+          <div className="mb-2 text-sm text-foreground font-medium">Ou envie um texto manual:</div>
+          <UploadTextTranscriptionForm />
+          <div className="mt-2 text-xs text-muted-foreground">
+            <ul className="list-disc ml-4">
+              <li>Digite ou cole a transcrição desejada no campo acima.</li>
+              <li>O texto será salvo e usado para responder perguntas nesta sala.</li>
+              <li>Você pode enviar quantos textos quiser, além dos áudios.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
