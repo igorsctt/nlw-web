@@ -25,7 +25,7 @@ const createQuestionSchema = z.object({
   question: z
     .string()
     .min(1, 'Pergunta é obrigatória')
-    .min(10, 'Pergunta deve ter pelo menos 10 caracteres')
+    .min(5, 'Pergunta deve ter pelo menos 5 caracteres')
     .max(500, 'Pergunta deve ter menos de 500 caracteres'),
 });
 
@@ -46,6 +46,7 @@ export function QuestionForm({ roomId }: QuestionFormProps) {
 
   async function handleCreateQuestion(data: CreateQuestionFormData) {
     await createQuestion(data);
+    form.reset();
   }
 
   const { isSubmitting } = form.formState;
@@ -82,7 +83,6 @@ export function QuestionForm({ roomId }: QuestionFormProps) {
                 </FormItem>
               )}
             />
-
             <Button disabled={isSubmitting} type="submit">
               Enviar pergunta
             </Button>

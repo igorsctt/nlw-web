@@ -33,20 +33,20 @@ export function UploadTextTranscriptionForm() {
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-4 bg-zinc-800 rounded-xl shadow-lg p-6 w-full">
       <Textarea
         value={text}
         onChange={e => setText(e.target.value)}
         placeholder="Digite ou cole a transcrição manual aqui..."
         disabled={mutation.isPending}
-        className="min-h-[100px]"
+        className="min-h-[100px] text-base bg-zinc-900 border-zinc-700 focus:border-primary focus:ring-2 focus:ring-primary/30 rounded-lg"
       />
-      <Button type="submit" disabled={mutation.isPending || !text.trim()}>
-        {mutation.isPending ? "Enviando..." : "Enviar texto como transcrição"}
+      <Button type="submit" disabled={mutation.isPending || !text.trim()} className="w-full text-base py-2">
+        {mutation.isPending ? "Enviando..." : "Enviar texto manual"}
       </Button>
       <div className="flex flex-col gap-2 mt-2">
-        <label htmlFor="file-upload" className="text-sm text-foreground font-medium">
-          Ou envie um arquivo de texto (.txt, .pdf, .docx):
+        <label htmlFor="file-upload" className="text-base text-foreground font-semibold mb-1">
+          Ou envie um arquivo (.txt, .pdf, .docx):
         </label>
         <input
           id="file-upload"
@@ -55,10 +55,17 @@ export function UploadTextTranscriptionForm() {
           ref={fileInputRef}
           onChange={handleFileChange}
           disabled={mutation.isPending}
-          className="block w-full text-sm text-muted-foreground border border-input rounded-md p-2 bg-background"
+          className="block w-full text-base text-muted-foreground border border-zinc-700 rounded-lg p-2 bg-zinc-900 focus:border-primary focus:ring-2 focus:ring-primary/30"
         />
       </div>
-      {mutation.isSuccess && <span className="text-green-600 text-sm">Transcrição enviada com sucesso!</span>}
+      {mutation.isSuccess && <span className="text-green-600 text-base font-semibold mt-2">Transcrição enviada com sucesso!</span>}
+      <div className="mt-2 text-xs text-muted-foreground">
+        <ul className="list-disc ml-4">
+          <li>Você pode digitar, colar ou enviar arquivos de texto.</li>
+          <li>Arquivos suportados: .txt, .pdf, .docx</li>
+          <li>O texto será salvo e usado para responder perguntas nesta sala.</li>
+        </ul>
+      </div>
     </form>
   );
 }

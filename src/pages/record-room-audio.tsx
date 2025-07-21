@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { UploadTextTranscriptionForm } from '@/components/upload-text-transcription-form';
 
 const isRecordingSupported =
@@ -100,35 +102,38 @@ export function RecordRoomAudio() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-8 bg-zinc-950 px-4">
-      <div className="flex flex-col items-center gap-4 bg-zinc-900 rounded-xl p-8 shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold text-foreground mb-2">Captura de Áudio ou Texto</h1>
-        <p className="text-muted-foreground text-center mb-4">
-          Você pode gravar um áudio para transcrição automática ou digitar/colar um texto manualmente.<br />
+    <div className="min-h-screen bg-gradient-to-br from-zinc-950 to-zinc-900 flex flex-col items-center justify-center px-4 py-8">
+      <div className="w-full max-w-lg bg-zinc-900 rounded-2xl shadow-2xl p-8 flex flex-col gap-6 items-center">
+        <div className="w-full flex items-center justify-between mb-2">
+          <Link to="/" className="flex items-center gap-2">
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="mr-2 size-4" />
+              Voltar
+            </Button>
+          </Link>
+          <span className="text-xs text-muted-foreground">Sala: <span className="font-bold">{params.roomId}</span></span>
+        </div>
+        <h1 className="text-3xl font-extrabold text-foreground mb-2 text-center">Captura de Áudio ou Texto</h1>
+        <p className="text-muted-foreground text-center mb-4 text-base">
+          Grave um áudio para transcrição automática <span className="font-bold">ou</span> envie um texto/manual ou arquivo.<br />
           <span className="font-semibold">Escolha a opção que preferir:</span>
         </p>
         <div className="flex flex-col items-center gap-3 w-full">
           {isRecording ? (
-            <Button onClick={stopRecording} variant="destructive" className="w-full">
+            <Button onClick={stopRecording} variant="destructive" className="w-full text-lg py-3">
               Parar gravação
             </Button>
           ) : (
-            <Button onClick={startRecording} variant="default" className="w-full">
+            <Button onClick={startRecording} variant="default" className="w-full text-lg py-3">
               Iniciar gravação
             </Button>
           )}
-          {isRecording ? <p className="text-primary">Gravando...</p> : <p className="text-muted-foreground">Pausado</p>}
+          {isRecording ? <p className="text-primary font-semibold">Gravando...</p> : <p className="text-muted-foreground">Pausado</p>}
         </div>
         <div className="w-full mt-6">
-          <div className="mb-2 text-sm text-foreground font-medium">Ou envie um texto manual:</div>
+          <div className="mb-2 text-base text-foreground font-semibold">Ou envie um texto ou arquivo:</div>
           <UploadTextTranscriptionForm />
-          <div className="mt-2 text-xs text-muted-foreground">
-            <ul className="list-disc ml-4">
-              <li>Digite ou cole a transcrição desejada no campo acima.</li>
-              <li>O texto será salvo e usado para responder perguntas nesta sala.</li>
-              <li>Você pode enviar quantos textos quiser, além dos áudios.</li>
-            </ul>
-          </div>
+         
         </div>
       </div>
     </div>
